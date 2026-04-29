@@ -1,0 +1,25 @@
+{
+  "name": "nano-island-plugin-template",
+  "version": "1.0.0",
+  "description": "灵动岛插件开发模板",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc && vite build",
+    "type-check": "vue-tsc --noEmit",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@nano-island/sdk": "^1.0.0",
+    "vue": "^3.5.33"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "@vitejs/plugin-vue": "^6.0.6",
+    "@tailwindcss/vite": "^4.2.4",
+    "tailwindcss": "^4.2.4",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.10",
+    "vue-tsc": "^3.2.7"
+  }
+}

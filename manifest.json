@@ -1,0 +1,61 @@
+{
+  "id": "nano-island-template",
+  "name": "插件模板",
+  "version": "1.0.0",
+  "description": "灵动岛插件开发模板",
+  "author": {
+    "name": "小莫唐尼"
+  },
+  "permissions": [
+    "storage:read",
+    "storage:write",
+    "shared:read",
+    "shared:write",
+    "private:read",
+    "private:write"
+  ],
+  "sharedData": {
+    "provides": [
+      "template-data"
+    ],
+    "consumes": []
+  },
+  "interfaces": {
+    "regular": {
+      "type": "vue",
+      "entry": "dist/regular.js",
+      "defaultSize": {
+        "width": 120,
+        "height": 36
+      }
+    },
+    "expanded": {
+      "type": "vue",
+      "entry": "dist/expanded.js",
+      "defaultSize": {
+        "width": 400,
+        "height": 300
+      }
+    },
+    "card": {
+      "type": "vue",
+      "entry": "dist/card.js",
+      "gridSize": {
+        "w": 2,
+        "h": 1
+      }
+    },
+    "settings": {
+      "type": "vue",
+      "entry": "dist/settings.js",
+      "title": "插件设置"
+    },
+    "menu": [
+      {
+        "id": "main",
+        "label": "模板插件",
+        "icon": "📦"
+      }
+    ]
+  }
+}
