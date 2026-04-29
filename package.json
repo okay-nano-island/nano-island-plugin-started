@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@nano-island/sdk": "^1.0.0",
+    "@nano-island/sdk": "^1.0.1",
     "vue": "^3.5.33"
   },
   "devDependencies": {
