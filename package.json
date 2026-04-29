@@ -1,8 +1,10 @@
 {
-  "name": "nano-island-plugin-template",
+  "name": "{{PLUGIN_ID}}",
+  "title": "{{PLUGIN_NAME}}",
   "version": "1.0.0",
-  "description": "灵动岛插件开发模板",
+  "description": "{{PLUGIN_DESCRIPTION}}",
   "type": "module",
+  "author": "{{PLUGIN_AUTHOR}}",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",

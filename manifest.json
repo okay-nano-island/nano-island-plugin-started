@@ -1,10 +1,10 @@
 {
-  "id": "nano-island-template",
-  "name": "插件模板",
+  "id": "{{PLUGIN_ID}}",
+  "name": "{{PLUGIN_NAME}}",
   "version": "1.0.0",
-  "description": "灵动岛插件开发模板",
+  "description": "{{PLUGIN_DESCRIPTION}}",
   "author": {
-    "name": "小莫唐尼"
+    "name": "{{PLUGIN_AUTHOR}}"
   },
   "permissions": [
     "storage:read",
