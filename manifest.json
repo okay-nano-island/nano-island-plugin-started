@@ -21,9 +21,13 @@
     "consumes": []
   },
   "interfaces": {
+    "main": {
+      "type": "vue",
+      "entry": "main.js"
+    },
     "regular": {
       "type": "vue",
-      "entry": "dist/regular.js",
+      "entry": "regular.js",
       "defaultSize": {
         "width": 120,
         "height": 36
@@ -31,7 +35,7 @@
     },
     "expanded": {
       "type": "vue",
-      "entry": "dist/expanded.js",
+      "entry": "expanded.js",
       "defaultSize": {
         "width": 400,
         "height": 300
@@ -39,7 +43,7 @@
     },
     "card": {
       "type": "vue",
-      "entry": "dist/card.js",
+      "entry": "card.js",
       "gridSize": {
         "w": 2,
         "h": 1
@@ -47,7 +51,7 @@
     },
     "settings": {
       "type": "vue",
-      "entry": "dist/settings.js",
+      "entry": "settings.js",
       "title": "插件设置"
     },
     "menu": [
