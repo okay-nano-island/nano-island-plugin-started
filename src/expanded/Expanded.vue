@@ -34,17 +34,17 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { useStorage } from '@nano-island/sdk'
+// import { useStorage } from '@nano-island/sdk'
 
-const storage = useStorage()
+// const storage = useStorage('{{PLUGIN_ID}}')
 
 const handleClose = () => {
   console.log('关闭扩展视图')
 }
 
 onMounted(async () => {
-  const data = await storage.get('template-config')
-  console.log('已加载配置:', data)
+  // const data = await storage.get('template-config')
+  // console.log('已加载配置:', data)
 })
 </script>
 

@@ -12,7 +12,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@nano-island/sdk": "^1.0.1",
+    "@nano-island/sdk": "^1.0.3",
+    "@nano-island/types": "^1.0.3",
     "vue": "^3.5.33"
   },
   "devDependencies": {

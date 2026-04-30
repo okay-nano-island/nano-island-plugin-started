@@ -35,25 +35,25 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { useStorage } from '@nano-island/sdk'
+// import { useStorage } from '@nano-island/sdk'
 
-const storage = useStorage()
+// const storage = useStorage('{{PLUGIN_ID}}')
 const enableNotifications = ref(false)
 const autoUpdate = ref(true)
 
 const toggleNotifications = async () => {
   enableNotifications.value = !enableNotifications.value
-  await storage.set('notifications-enabled', enableNotifications.value)
+  // await storage.set('notifications-enabled', enableNotifications.value)
 }
 
 const toggleAutoUpdate = async () => {
   autoUpdate.value = !autoUpdate.value
-  await storage.set('auto-update', autoUpdate.value)
+  // await storage.set('auto-update', autoUpdate.value)
 }
 
 onMounted(async () => {
-  enableNotifications.value = await storage.get('notifications-enabled') || false
-  autoUpdate.value = await storage.get('auto-update') || true
+  // enableNotifications.value = await storage.get('notifications-enabled') || false
+  // autoUpdate.value = await storage.get('auto-update') || true
 })
 </script>
 
