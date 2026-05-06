@@ -1,0 +1,6 @@
+{
+  "pluginId": "{{PLUGIN_ID}}",
+  "name": "{{PLUGIN_NAME}}",
+  "port": "{{PLUGIN_DEV_PORT}}",
+  "url": "http://localhost:{{PLUGIN_DEV_PORT}}"
+}

@@ -1,56 +1,67 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import path from 'path'
 import tailwindcss from '@tailwindcss/vite'
-import { copyFileSync, existsSync } from 'fs'
-import { fileURLToPath } from 'url'
+import { viteStaticCopy } from 'vite-plugin-static-copy'
+import {
+  nanoIslandViewVitePlugin,
+  nanoIslandMoveHtmlToViewsVitePlugin,
+} from '@nano-island/vite-plugins'
+import manifest from './src/manifest.json'
+import nanoIslandDevConfig from './src/nano-island-dev/config.json'
 
-function getPath(relativePath: string) {
-  return fileURLToPath(new URL(relativePath, import.meta.url))
-}
+export default defineConfig(({ command, mode }) => {
+  const isDevMode = mode === 'development'
+  const buildOutDir = 'dist'
 
-function copyManifestPlugin() {
   return {
-    name: 'copy-manifest-plugin',
-    closeBundle() {
-      const manifestPath = getPath('manifest.json')
-      const distManifestPath = getPath('dist/manifest.json')
-      if (existsSync(manifestPath)) {
-        copyFileSync(manifestPath, distManifestPath)
-        console.log('manifest.json copied to dist/')
-      }
+    plugins: [
+      vue(),
+      tailwindcss(),
+      nanoIslandViewVitePlugin(),
+      nanoIslandMoveHtmlToViewsVitePlugin(),
+      !isDevMode &&
+        viteStaticCopy({
+          targets: [
+            {
+              src: './src/manifest.json',
+              dest: buildOutDir,
+              rename: { stripBase: 1 },
+            },
+          ],
+        }),
+    ],
+    resolve: {
+      alias: {
+        '@': path.resolve(import.meta.dirname, 'src'),
+      },
+    },
+    base: './',
+    server: {
+      port: nanoIslandDevConfig?.port ?? 5173,
+      open: false,
+    },
+    build: {
+      outDir: buildOutDir,
+      sourcemap: isDevMode,
+      minify: true,
+      emptyOutDir: true,
+      modulePreload: isDevMode,
+      rollupOptions: {
+        input: Object.fromEntries(
+          manifest.views.map(view => [view.name, path.resolve(import.meta.dirname, view.devEntry)])
+        ),
+        output: {
+          codeSplitting: {
+            groups: [
+              {
+                name: 'naive-vendor',
+                test: /naive-ui/,
+              },
+            ],
+          },
+        },
+      },
     },
   }
-}
-
-export default defineConfig({
-  plugins: [vue(), tailwindcss(), copyManifestPlugin()],
-  resolve: {
-    alias: {
-      '@': getPath('./src'),
-    },
-  },
-  css: {
-    preprocessorOptions: {
-      scss: {
-        api: 'modern-compiler',
-      },
-    },
-  },
-  build: {
-    rollupOptions: {
-      input: {
-        main: 'src/main.ts',
-        regular: 'src/regular/Regular.vue',
-        expanded: 'src/expanded/Expanded.vue',
-        card: 'src/card/Card.vue',
-        settings: 'src/settings/Settings.vue',
-        menu: 'src/menu/MainMenu.vue',
-      },
-      external: ['vue', '@nano-island/sdk', '@nano-island/types'],
-      output: {
-        entryFileNames: '[name].js',
-        assetFileNames: 'assets/[name].[ext]',
-      },
-    },
-  },
 })

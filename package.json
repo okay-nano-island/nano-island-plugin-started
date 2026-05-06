@@ -1,28 +1,34 @@
 {
   "name": "{{PLUGIN_ID}}",
-  "title": "{{PLUGIN_NAME}}",
   "version": "1.0.0",
   "description": "{{PLUGIN_DESCRIPTION}}",
-  "type": "module",
   "author": "{{PLUGIN_AUTHOR}}",
+  "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc && vite build",
-    "type-check": "vue-tsc --noEmit",
-    "preview": "vite preview"
+    "dev:watch": "vite build --watch",
+    "build": "vite build",
+    "preview": "vite preview",
+    "type-check": "vue-tsc --noEmit"
   },
   "dependencies": {
-    "@nano-island/sdk": "^1.0.3",
-    "@nano-island/types": "^1.0.3",
+    "@nano-island/sdk": "workspace:*",
+    "@nano-island/types": "workspace:*",
     "vue": "^3.5.33"
   },
   "devDependencies": {
+    "@nano-island/vite-plugins": "workspace:*",
+    "@tailwindcss/vite": "^4.2.4",
     "@types/node": "^25.6.0",
     "@vitejs/plugin-vue": "^6.0.6",
-    "@tailwindcss/vite": "^4.2.4",
+    "naive-ui": "^2.44.1",
     "tailwindcss": "^4.2.4",
     "typescript": "^6.0.3",
+    "unplugin-auto-import": "^21.0.0",
+    "vfonts": "^0.0.3",
     "vite": "^8.0.10",
+    "vite-plugin-singlefile": "^2.3.3",
+    "vite-plugin-static-copy": "^4.1.0",
     "vue-tsc": "^3.2.7"
   }
 }
