@@ -1,6 +1,6 @@
-# Nano Island 示例时钟插件
+# {{PLUGIN_NAME}}
 
-一个完整的 Nano Island 插件示例，展示所有组件类型、生命周期管理和 TailwindCSS 4.x 的使用。
+{{PLUGIN_DESCRIPTION}}
 
 ## 功能特性
 
@@ -122,7 +122,7 @@ pnpm build
 ## 技术栈
 
 - **Vue** - 渐进式 JavaScript 框架
-- **TypeScript ** - 类型安全的 JavaScript 超集
+- **TypeScript** - 类型安全的 JavaScript 超集
 - **Vite** - 下一代前端构建工具
 - **TailwindCSS 4.x** - 实用优先的 CSS 框架
 - **@nano-island/sdk** - 灵动岛插件 SDK
