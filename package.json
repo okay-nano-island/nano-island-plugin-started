@@ -12,14 +12,18 @@
     "type-check": "vue-tsc --noEmit"
   },
   "dependencies": {
+    "@icon-park/vue-next": "^1.4.2",
+    "@iconify/vue": "^5.0.1",
     "@nano-island/sdk": "workspace:*",
     "@nano-island/types": "workspace:*",
-    "vue": "^3.5.33"
+    "@nano-island/ui": "workspace:*",
+    "vue": "^3.5.34",
+    "lucide-vue-next": "^1.0.0"
   },
   "devDependencies": {
     "@nano-island/vite-plugins": "workspace:*",
     "@tailwindcss/vite": "^4.2.4",
-    "@types/node": "^25.6.0",
+    "@types/node": "^25.6.1",
     "@vitejs/plugin-vue": "^6.0.6",
     "naive-ui": "^2.44.1",
     "tailwindcss": "^4.2.4",

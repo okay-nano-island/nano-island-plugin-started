@@ -6,13 +6,16 @@ defineIslandViewOptions({
   type: 'menu',
   width: 400,
   height: 40,
+  order: 1,
 })
 
 import { createApp } from 'vue'
 import App from './App.vue'
-import naive from 'naive-ui'
+import naiveUI from 'naive-ui'
+import islandUI from '@nano-island/ui'
 import '@/styles/global.css'
 
 const app = createApp(App)
-app.use(naive)
+app.use(naiveUI)
+app.use(islandUI)
 app.mount('#app')
