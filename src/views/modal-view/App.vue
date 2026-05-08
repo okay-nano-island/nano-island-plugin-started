@@ -1,24 +1,19 @@
 <template>
-  <div class="w-full h-full bg-gray-800 rounded-xl flex flex-col p-4">
-    <textarea
-      class="flex-1 w-full bg-gray-700 text-white rounded-lg p-3 resize-none"
-      placeholder="输入笔记内容..."
-    ></textarea>
-  </div>
+  <NConfigProvider :theme="darkTheme" class="w-full h-full">
+    <NMessageProvider>
+      <island-page-wrapper>
+        <index />
+      </island-page-wrapper>
+    </NMessageProvider>
+  </NConfigProvider>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { darkTheme, NConfigProvider, NMessageProvider } from 'naive-ui'
+import { createContext } from '@nano-island/sdk'
 import { useManifest } from '@/composables/useManifest'
-import { createBridge, createStore, createUI } from '@nano-island/sdk'
+import index from './index.vue'
 
 const { manifest } = useManifest()
-const bridge = createBridge(manifest.id)
-const store = createStore(manifest.id, bridge)
-const ui = createUI(manifest.id, bridge)
-
-const noteId = ref('')
-onMounted(() => {
-  noteId.value = store.get('editNoteId') || ''
-})
+const islandCtx = createContext({ pluginId: manifest.id, viewName: 'modal-view' })
 </script>

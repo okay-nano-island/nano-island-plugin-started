@@ -1,0 +1,313 @@
+[
+    {
+        "id": "ui",
+        "name": "UI 操作",
+        "icon": "fa-solid fa-desktop",
+        "color": "#f97316",
+        "since": "1.0.0",
+        "type": "apis",
+        "description": "操作宿主界面元素，包括弹窗、通知、主题切换等。插件可以通过这些 API 与用户进行交互。",
+        "apis": [
+            {
+                "name": "showModal",
+                "demo": "modal",
+                "description": "显示模态弹窗，支持信息、确认、错误三种类型",
+                "signature": "showModal(options: ModalOptions): Promise<ModalResult>",
+                "params": [
+                    {"name": "options", "type": "ModalOptions", "desc": "弹窗配置对象"},
+                    {"name": "options.title", "type": "string", "desc": "弹窗标题"},
+                    {"name": "options.content", "type": "string", "desc": "弹窗内容"},
+                    {"name": "options.type", "type": "'info' | 'confirm' | 'error'", "desc": "弹窗类型"}
+                ],
+                "returns": "Promise<ModalResult>",
+                "tag": "交互",
+                "tagColor": "#f97316",
+                "codeExample": "import { UI } from 'island-sdk';\n\n// 信息弹窗\nconst result = await UI.showModal({\n  title: '操作成功',\n  content: '数据已保存到云端',\n  type: 'info'\n});\n\n// 确认弹窗\nconst confirmed = await UI.showModal({\n  title: '确认删除',\n  content: '此操作不可撤销',\n  type: 'confirm'\n});\nif (confirmed.confirmed) {\n  // 用户点击了确定\n}"
+            },
+            {
+                "name": "showNotification",
+                "demo": "notification",
+                "description": "显示系统通知，支持成功、警告、错误、信息四种样式",
+                "signature": "showNotification(options: NotificationOptions): void",
+                "params": [
+                    {"name": "options", "type": "NotificationOptions", "desc": "通知配置"},
+                    {"name": "options.title", "type": "string", "desc": "通知标题"},
+                    {"name": "options.message", "type": "string", "desc": "通知内容"},
+                    {"name": "options.type", "type": "'success' | 'warning' | 'error' | 'info'", "desc": "通知类型"}
+                ],
+                "returns": "void",
+                "tag": "交互",
+                "tagColor": "#f97316",
+                "codeExample": "import { UI } from 'island-sdk';\n\n// 成功通知\nUI.showNotification({\n  title: '保存成功',\n  message: '文件已保存到本地',\n  type: 'success'\n});\n\n// 错误通知\nUI.showNotification({\n  title: '同步失败',\n  message: '网络连接超时',\n  type: 'error'\n});"
+            },
+            {
+                "name": "setTheme",
+                "demo": "theme",
+                "description": "切换宿主主题，支持浅色、深色和极光主题",
+                "signature": "setTheme(theme: ThemePreset): void",
+                "params": [{"name": "theme", "type": "ThemePreset", "desc": "主题预设：'light' | 'dark' | 'aurora'"}],
+                "returns": "void",
+                "tag": "配置",
+                "tagColor": "#a855f7",
+                "codeExample": "import { UI } from 'island-sdk';\n\n// 切换到深色主题\nUI.setTheme('dark');\n\n// 切换到极光主题\nUI.setTheme('aurora');"
+            }
+        ]
+    },
+    {
+        "id": "store",
+        "name": "数据存储",
+        "icon": "fa-solid fa-database",
+        "color": "#4ade80",
+        "since": "1.0.0",
+        "type": "apis",
+        "description": "持久化键值存储，支持跨插件隔离的数据读写和变更监听。数据在应用重启后仍然保留。",
+        "apis": [
+            {
+                "name": "set",
+                "demo": "store",
+                "description": "写入数据到 Store，支持任意可序列化的值",
+                "signature": "set<T>(key: string, value: T): void",
+                "params": [
+                    {"name": "key", "type": "string", "desc": "存储键名"},
+                    {"name": "value", "type": "T", "desc": "存储值，必须可序列化"}
+                ],
+                "returns": "void",
+                "tag": "写入",
+                "tagColor": "#4ade80",
+                "codeExample": "import { Store } from 'island-sdk';\n\n// 写入字符串\nStore.set('user.name', 'Alice');\n\n// 写入对象\nStore.set('user.profile', {\n  name: 'Alice',\n  age: 28,\n  role: 'admin'\n});"
+            },
+            {
+                "name": "get",
+                "demo": "store",
+                "description": "从 Store 读取数据，键不存在时返回 null",
+                "signature": "get<T>(key: string): T | null",
+                "params": [{"name": "key", "type": "string", "desc": "存储键名"}],
+                "returns": "T | null",
+                "tag": "读取",
+                "tagColor": "#3b82f6",
+                "codeExample": "import { Store } from 'island-sdk';\n\n// 读取字符串\nconst name = Store.get<string>('user.name');\n// => \"Alice\"\n\n// 键不存在时返回 null\nconst missing = Store.get('not.exist');\n// => null"
+            },
+            {
+                "name": "onChanged",
+                "demo": "store",
+                "description": "监听指定键的数据变更，返回取消监听函数",
+                "signature": "onChanged(key: string, callback: (value: any) => void): () => void",
+                "params": [
+                    {"name": "key", "type": "string", "desc": "监听的键名"},
+                    {"name": "callback", "type": "(value: any) => void", "desc": "变更回调"}
+                ],
+                "returns": "() => void",
+                "tag": "监听",
+                "tagColor": "#eab308",
+                "codeExample": "import { Store } from 'island-sdk';\n\nconst unsubscribe = Store.onChanged('user.name', (value) => {\n  console.log('用户名变更为:', value);\n});\n\n// 取消监听\nunsubscribe();"
+            }
+        ]
+    },
+    {
+        "id": "log",
+        "name": "日志系统",
+        "icon": "fa-solid fa-terminal",
+        "color": "#3b82f6",
+        "since": "1.0.0",
+        "type": "apis",
+        "description": "结构化日志记录，支持分级输出和元数据附加。日志会显示在系统日志面板中，可按插件和级别过滤。",
+        "apis": [
+            {
+                "name": "info",
+                "demo": "log",
+                "description": "记录 Info 级别日志",
+                "signature": "info(message: string, meta?: Record<string, any>): void",
+                "params": [
+                    {"name": "message", "type": "string", "desc": "日志消息"},
+                    {"name": "meta", "type": "Record<string, any>", "desc": "附加元数据（可选）"}
+                ],
+                "returns": "void",
+                "codeExample": "import { Log } from 'island-sdk';\n\nconst logger = Log.getLogger('my-plugin');\n\nlogger.info('初始化完成', { version: '1.0.0' });\nlogger.warn('配置缺失，使用默认值');\nlogger.error('连接失败', { host: 'api.example.com' });"
+            },
+            {
+                "name": "error",
+                "demo": "log",
+                "description": "记录 Error 级别日志，可附带堆栈信息",
+                "signature": "error(message: string, meta?: Record<string, any>): void",
+                "params": [
+                    {"name": "message", "type": "string", "desc": "日志消息"},
+                    {"name": "meta", "type": "Record<string, any>", "desc": "附加元数据（可选）"}
+                ],
+                "returns": "void",
+                "tag": "错误",
+                "tagColor": "#ef4444",
+                "codeExample": "import { Log } from 'island-sdk';\n\nconst logger = Log.getLogger('my-plugin');\n\ntry {\n  await fetchData();\n} catch (err) {\n  logger.error('数据获取失败', {\n    url: 'https://api.example.com/data',\n    status: err.status,\n    message: err.message\n  });\n}"
+            }
+        ]
+    },
+    {
+        "id": "event",
+        "name": "事件系统",
+        "icon": "fa-solid fa-bolt",
+        "color": "#eab308",
+        "since": "1.1.0",
+        "type": "apis",
+        "description": "发布/订阅模式的事件总线，支持跨插件通信。插件可以发送和监听自定义事件。",
+        "apis": [
+            {
+                "name": "emit",
+                "demo": "event",
+                "description": "发送事件，所有监听该事件的订阅者都会收到通知",
+                "signature": "emit(event: string, ...args: any[]): void",
+                "params": [
+                    {"name": "event", "type": "string", "desc": "事件名称"},
+                    {"name": "args", "type": "any[]", "desc": "事件参数"}
+                ],
+                "returns": "void",
+                "tag": "发布",
+                "tagColor": "#f97316",
+                "codeExample": "import { Event } from 'island-sdk';\n\n// 发送自定义事件\nEvent.emit('user:login', { userId: 'alice' });\nEvent.emit('data:updated', { key: 'config' });"
+            },
+            {
+                "name": "on",
+                "demo": "event",
+                "description": "订阅事件，返回取消订阅函数",
+                "signature": "on(event: string, callback: (...args: any[]) => void): () => void",
+                "params": [
+                    {"name": "event", "type": "string", "desc": "事件名称"},
+                    {"name": "callback", "type": "(...args: any[]) => void", "desc": "事件回调"}
+                ],
+                "returns": "() => void",
+                "tag": "订阅",
+                "tagColor": "#8b5cf6",
+                "codeExample": "import { Event } from 'island-sdk';\n\n// 订阅事件\nconst unsub = Event.on('user:login', (data) => {\n  console.log('用户登录:', data.userId);\n});\n\n// 取消订阅\nunsub();"
+            }
+        ]
+    },
+    {
+        "id": "icons",
+        "name": "图标组件",
+        "icon": "fa-solid fa-icons",
+        "color": "#22d3ee",
+        "since": "2.0.0",
+        "type": "libraries",
+        "description": "内置多种图标库支持，提供丰富的图标资源。插件可按需引入，支持 FontAwesome、Lucide、Iconify、IconPark 等。",
+        "libraries": [
+            {
+                "id": "fontawesome",
+                "name": "FontAwesome",
+                "icon": "fa-brands fa-font-awesome",
+                "color": "#528dd7",
+                "package": "@fortawesome/vue-fontawesome",
+                "version": "3.0.8",
+                "officialUrl": "https://fontawesome.com",
+                "npmUrl": "https://www.npmjs.com/package/@fortawesome/vue-fontawesome",
+                "iconCount": "2,000+",
+                "style": "Solid / Regular / Brands / Light",
+                "description": "最流行的图标库，提供 Solid、Regular、Brands 等多种风格，覆盖 UI 设计常用场景。",
+                "installCmds": ["npm install @fortawesome/vue-fontawesome@latest-3", "npm install @fortawesome/free-solid-svg-icons", "npm install @fortawesome/free-regular-svg-icons", "npm install @fortawesome/free-brands-svg-icons"],
+                "codeFile": "FontAwesomeDemo.vue",
+                "sampleIcons": [
+                    {"label": "House", "faClass": "fa-solid fa-house", "usage": "<font-awesome-icon icon=\"fa-solid fa-house\" />"},
+                    {"label": "Gear", "faClass": "fa-solid fa-gear", "usage": "<font-awesome-icon icon=\"fa-solid fa-gear\" />"},
+                    {"label": "User", "faClass": "fa-solid fa-user", "usage": "<font-awesome-icon icon=\"fa-solid fa-user\" />"},
+                    {"label": "Heart", "faClass": "fa-solid fa-heart", "usage": "<font-awesome-icon icon=\"fa-solid fa-heart\" />"},
+                    {"label": "Bell", "faClass": "fa-solid fa-bell", "usage": "<font-awesome-icon icon=\"fa-solid fa-bell\" />"},
+                    {"label": "Search", "faClass": "fa-solid fa-magnifying-glass", "usage": "<font-awesome-icon icon=\"fa-solid fa-magnifying-glass\" />"},
+                    {"label": "Rocket", "faClass": "fa-solid fa-rocket", "usage": "<font-awesome-icon icon=\"fa-solid fa-rocket\" />"},
+                    {"label": "Star", "faClass": "fa-solid fa-star", "usage": "<font-awesome-icon icon=\"fa-solid fa-star\" />"},
+                    {"label": "Bolt", "faClass": "fa-solid fa-bolt", "usage": "<font-awesome-icon icon=\"fa-solid fa-bolt\" />"},
+                    {"label": "Shield", "faClass": "fa-solid fa-shield", "usage": "<font-awesome-icon icon=\"fa-solid fa-shield\" />"},
+                    {"label": "Cloud", "faClass": "fa-solid fa-cloud", "usage": "<font-awesome-icon icon=\"fa-solid fa-cloud\" />"},
+                    {"label": "Code", "faClass": "fa-solid fa-code", "usage": "<font-awesome-icon icon=\"fa-solid fa-code\" />"}
+                ],
+                "codeExample": "<template>\n  <!-- Solid 风格 -->\n  <font-awesome-icon icon=\"fa-solid fa-house\" />\n  <font-awesome-icon icon=\"fa-solid fa-gear\" size=\"lg\" />\n\n  <!-- Regular 风格 -->\n  <font-awesome-icon icon=\"fa-regular fa-heart\" />\n\n  <!-- Brands 风格 -->\n  <font-awesome-icon icon=\"fa-brands fa-github\" size=\"2x\" />\n\n  <!-- 自定义颜色和大小 -->\n  <font-awesome-icon\n    icon=\"fa-solid fa-rocket\"\n    size=\"2x\"\n    class=\"text-orange-500\"\n  />\n</template>\n\n<script setup>\nimport { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'\nimport { faHouse, faGear, faRocket } from '@fortawesome/free-solid-svg-icons'\nimport { faHeart } from '@fortawesome/free-regular-svg-icons'\nimport { faGithub } from '@fortawesome/free-brands-svg-icons'\n</script>"
+            },
+            {
+                "id": "lucide",
+                "name": "Lucide",
+                "icon": "fa-solid fa-feather",
+                "color": "#f56040",
+                "package": "lucide-vue-next",
+                "version": "0.460.0",
+                "officialUrl": "https://lucide.dev",
+                "npmUrl": "https://www.npmjs.com/package/lucide-vue-next",
+                "iconCount": "1,500+",
+                "style": "Outline (线性风格)",
+                "description": "Feather Icons 的社区延续版本，提供 1500+ 精致的线性图标，风格统一简洁，适合现代 UI。",
+                "installCmds": ["npm install lucide-vue-next"],
+                "codeFile": "LucideDemo.vue",
+                "sampleIcons": [
+                    {"label": "Home", "faClass": "fa-solid fa-house", "usage": "<Home :size=\"24\" />"},
+                    {"label": "Settings", "faClass": "fa-solid fa-gear", "usage": "<Settings :size=\"24\" />"},
+                    {"label": "User", "faClass": "fa-solid fa-user", "usage": "<User :size=\"24\" />"},
+                    {"label": "Heart", "faClass": "fa-solid fa-heart", "usage": "<Heart :size=\"24\" />"},
+                    {"label": "Bell", "faClass": "fa-solid fa-bell", "usage": "<Bell :size=\"24\" />"},
+                    {"label": "Search", "faClass": "fa-solid fa-magnifying-glass", "usage": "<Search :size=\"24\" />"},
+                    {"label": "Rocket", "faClass": "fa-solid fa-rocket", "usage": "<Rocket :size=\"24\" />"},
+                    {"label": "Star", "faClass": "fa-solid fa-star", "usage": "<Star :size=\"24\" />"},
+                    {"label": "Zap", "faClass": "fa-solid fa-bolt", "usage": "<Zap :size=\"24\" />"},
+                    {"label": "Shield", "faClass": "fa-solid fa-shield", "usage": "<Shield :size=\"24\" />"},
+                    {"label": "Cloud", "faClass": "fa-solid fa-cloud", "usage": "<Cloud :size=\"24\" />"},
+                    {"label": "Code", "faClass": "fa-solid fa-code", "usage": "<Code :size=\"24\" />"}
+                ],
+                "codeExample": "<template>\n  <!-- 基本用法 -->\n  <Home :size=\"24\" />\n  <Settings :size=\"20\" color=\"#f97316\" />\n\n  <!-- 线宽和颜色 -->\n  <Heart :size=\"32\" :stroke-width=\"1.5\" color=\"#ef4444\" />\n\n  <!-- 不可点击状态 -->\n  <Bell :size=\"24\" class=\"opacity-50\" />\n\n  <!-- 动画旋转 -->\n  <LoaderCircle :size=\"24\" class=\"animate-spin\" />\n</template>\n\n<script setup>\nimport {\n  Home, Settings, Heart,\n  Bell, LoaderCircle\n} from 'lucide-vue-next'\n</script>"
+            },
+            {
+                "id": "iconify",
+                "name": "Iconify",
+                "icon": "fa-solid fa-layer-group",
+                "color": "#1769aa",
+                "package": "@iconify/vue",
+                "version": "4.3.0",
+                "officialUrl": "https://iconify.design",
+                "npmUrl": "https://www.npmjs.com/package/@iconify/vue",
+                "iconCount": "200,000+",
+                "style": "多图标集统一接口",
+                "description": "统一访问 150+ 图标集的超集方案，支持 Material Design、Carbon、Tabler、Twemoji 等，按需加载。",
+                "installCmds": ["npm install @iconify/vue"],
+                "codeFile": "IconifyDemo.vue",
+                "sampleIcons": [
+                    {"label": "mdi:home", "faClass": "fa-solid fa-house", "usage": "<Icon icon=\"mdi:home\" />"},
+                    {"label": "mdi:cog", "faClass": "fa-solid fa-gear", "usage": "<Icon icon=\"mdi:cog\" />"},
+                    {"label": "mdi:account", "faClass": "fa-solid fa-user", "usage": "<Icon icon=\"mdi:account\" />"},
+                    {"label": "mdi:heart", "faClass": "fa-solid fa-heart", "usage": "<Icon icon=\"mdi:heart\" />"},
+                    {"label": "mdi:bell", "faClass": "fa-solid fa-bell", "usage": "<Icon icon=\"mdi:bell\" />"},
+                    {"label": "mdi:magnify", "faClass": "fa-solid fa-magnifying-glass", "usage": "<Icon icon=\"mdi:magnify\" />"},
+                    {"label": "mdi:rocket", "faClass": "fa-solid fa-rocket", "usage": "<Icon icon=\"mdi:rocket\" />"},
+                    {"label": "mdi:star", "faClass": "fa-solid fa-star", "usage": "<Icon icon=\"mdi:star\" />"},
+                    {"label": "carbon:flash", "faClass": "fa-solid fa-bolt", "usage": "<Icon icon=\"carbon:flash\" />"},
+                    {"label": "carbon:security", "faClass": "fa-solid fa-shield", "usage": "<Icon icon=\"carbon:security\" />"},
+                    {"label": "tabler:cloud", "faClass": "fa-solid fa-cloud", "usage": "<Icon icon=\"tabler:cloud\" />"},
+                    {"label": "tabler:code", "faClass": "fa-solid fa-code", "usage": "<Icon icon=\"tabler:code\" />"}
+                ],
+                "codeExample": "<template>\n  <!-- Material Design Icons -->\n  <Icon icon=\"mdi:home\" :width=\"24\" />\n  <Icon icon=\"mdi:cog\" :width=\"24\" />\n\n  <!-- Carbon 图标集 -->\n  <Icon icon=\"carbon:flash\" :width=\"20\" color=\"#f97316\" />\n\n  <!-- Tabler 图标集 -->\n  <Icon icon=\"tabler:heart\" :width=\"32\" color=\"#ef4444\" />\n\n  <!-- Twemoji (表情) -->\n  <Icon icon=\"twemoji:rocket\" :width=\"24\" />\n\n  <!-- 自定义样式 -->\n  <Icon icon=\"mdi:account-circle\" :width=\"48\" class=\"text-blue-500\" />\n</template>\n\n<script setup>\nimport { Icon } from '@iconify/vue'\n</script>"
+            },
+            {
+                "id": "iconpark",
+                "name": "IconPark",
+                "icon": "fa-solid fa-palette",
+                "color": "#00c3a0",
+                "package": "@icon-park/vue-next",
+                "version": "1.4.2",
+                "officialUrl": "https://iconpark.oceanengine.com",
+                "npmUrl": "https://www.npmjs.com/package/@icon-park/vue-next",
+                "iconCount": "2,400+",
+                "style": "Outline / Filled / Two-Tone / Four-Color",
+                "description": "字节跳动开源图标库，支持线性、填充、双色、四色四种主题风格，图标设计精致统一。",
+                "installCmds": ["npm install @icon-park/vue-next"],
+                "codeFile": "IconParkDemo.vue",
+                "sampleIcons": [
+                    {"label": "Home", "faClass": "fa-solid fa-house", "usage": "<Home theme=\"outline\" />"},
+                    {"label": "Setting", "faClass": "fa-solid fa-gear", "usage": "<Setting theme=\"outline\" />"},
+                    {"label": "User", "faClass": "fa-solid fa-user", "usage": "<User theme=\"outline\" />"},
+                    {"label": "Like", "faClass": "fa-solid fa-heart", "usage": "<Like theme=\"outline\" />"},
+                    {"label": "Remind", "faClass": "fa-solid fa-bell", "usage": "<Remind theme=\"outline\" />"},
+                    {"label": "Search", "faClass": "fa-solid fa-magnifying-glass", "usage": "<Search theme=\"outline\" />"},
+                    {"label": "Rocket", "faClass": "fa-solid fa-rocket", "usage": "<Rocket theme=\"outline\" />"},
+                    {"label": "Star", "faClass": "fa-solid fa-star", "usage": "<Star theme=\"outline\" />"},
+                    {"label": "Flash", "faClass": "fa-solid fa-bolt", "usage": "<Flash theme=\"outline\" />"},
+                    {"label": "Protect", "faClass": "fa-solid fa-shield", "usage": "<Protect theme=\"outline\" />"},
+                    {"label": "Cloud", "faClass": "fa-solid fa-cloud", "usage": "<Cloud theme=\"outline\" />"},
+                    {"label": "Code", "faClass": "fa-solid fa-code", "usage": "<Code theme=\"outline\" />"}
+                ],
+                "codeExample": "<template>\n  <Home theme=\"outline\" :size=\"24\" />\n  <Setting theme=\"outline\" :size=\"24\" />\n  <Like theme=\"filled\" :size=\"24\" fill=\"#ef4444\" />\n</template>\n\n<script setup>\nimport { Home, Setting, Like } from '@icon-park/vue-next'\n</script>"
+            }
+        ]
+    }
+]

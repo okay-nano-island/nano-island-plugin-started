@@ -1,10 +1,12 @@
 defineIslandViewOptions({
-  name: 'menu-list',
-  displayName: '菜单1',
-  description: '这是一个灵动岛菜单1',
-  icon: 'weui:note-filled',
+  name: 'menu-api-demos',
+  displayName: 'API示例',
+  description: '这是一个API示例',
+  icon: 'material-symbols:extension',
   type: 'menu',
-  order: 2,
+  width: '100vw',
+  height: '100vh',
+  order: 1,
 })
 
 import { createApp } from 'vue'

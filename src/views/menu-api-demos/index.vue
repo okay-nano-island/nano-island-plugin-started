@@ -8,6 +8,7 @@
 import { onMounted, ref } from 'vue'
 import { useManifest } from '@/composables/useManifest'
 import { createContext } from '@nano-island/sdk'
+import MockData from './data/mock.json?raw'
 
 const { manifest } = useManifest()
 const islandCtx = createContext({
