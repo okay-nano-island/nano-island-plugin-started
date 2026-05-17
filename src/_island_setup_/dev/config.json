@@ -1,0 +1,6 @@
+{
+  "pluginId": "nano-island-plugin-cat-gatekeeper",
+  "name": "Cat Gatekeeper",
+  "port": 5201,
+  "url": "http://localhost:5201"
+}

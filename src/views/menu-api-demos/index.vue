@@ -4,18 +4,29 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import { useManifest } from '@/composables/useManifest'
-import { createContext } from '@nano-island/sdk'
-import MockData from './data/mock.json?raw'
 
+<script setup lang="ts">
+import { ref, onMounted, useTemplateRef, nextTick, reactive, onUnmounted, computed } from 'vue'
+import { NButton, useMessage } from 'naive-ui'
+import { useManifest } from '@_islandSetup/composables/useManifest'
+import { createContext } from '@nano-island/sdk'
+
+const ViewName = 'menu-api-demos'
 const { manifest } = useManifest()
 const islandCtx = createContext({
   pluginId: manifest.id,
-  viewName: 'template',
+  viewName: ViewName,
+  isDev: import.meta.env.DEV,
 })
+const message = useMessage()
+
 onMounted(() => {
-  console.log('[Nano Island] 开发模板')
+  console.log('菜单模板挂载完成')
+})
+
+onUnmounted(async () => {
+  console.log('菜单模板卸载完成')
 })
 </script>
+
+<style scoped></style>

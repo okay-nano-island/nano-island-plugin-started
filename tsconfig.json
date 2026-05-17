@@ -18,10 +18,17 @@
     "types": ["node"],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@_islandSetup/*": ["src/_island_setup_/*"],
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue", "src/**/*.d.ts"],
-  "files": ["src/vite-plugins/global.d.ts"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "src/**/*.d.ts",
+    "global.d.ts",
+    "vite-env.d.ts"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
